@@ -14,7 +14,6 @@ if(isset($_GET['logout'])){
    header('location:./auth/login.php');
 };
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,7 +34,8 @@ if(isset($_GET['logout'])){
   <?php include 'editpage.php';?>
 
   <?php include 'component/footer.php';?>
-</body>
+
   <?php include 'component/nav_setting.php';?>
+</body>
 
 </html>
