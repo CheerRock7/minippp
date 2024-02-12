@@ -1,60 +1,48 @@
 <?php
+// Include config file
+include 'config.php';
 
-// เชื่อมต่อฐานข้อมูล
-$conn = new mysqli("localhost", "root", "", "milk_db");
+// Check if form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Process form data
+    $product_name = $_POST['product_name'];
+    $product_price = $_POST['product_price'];
+    // Assuming you have a 'product_image' folder to store uploaded images
+    $target_dir = "image/";
+    $target_file = $target_dir . basename($_FILES["product_image"]["name"]);
+    $product_image = $target_file;
+    $product_qty = $_POST['product_qty'];
+    $product_code = $_POST['product_code'];
 
-// ตรวจสอบว่ามีการ submit ข้อมูล
-if (isset($_POST["product_name"])) {
+    // Upload image
+    if (move_uploaded_file($_FILES["product_image"]["tmp_name"], $target_file)) {
+        // Insert product into database
+        $stmt = $conn->prepare("INSERT INTO product (product_name, product_price, product_image, product_qty, product_code) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $product_name, $product_price, $product_image, $product_qty, $product_code);
 
-    // เก็บข้อมูลจากฟอร์ม
-    $product_name = $_POST["product_name"];
-    $product_price = $_POST["product_price"];
-    $product_qty = $_POST["product_qty"];
-    $product_code = $_POST["product_code"];
-
-
-    // อัพโหลดรูปภาพ
-if (isset($_FILES["product_image"])) {
-    $product_image = $_FILES["product_image"]["name"];
-    $tmp_name = $_FILES["product_image"]["tmp_name"];
-    $upload_dir = "../mini/image/";
-
-    if (move_uploaded_file($tmp_name, $upload_dir . $product_image)) {
-        // เขียน SQL
-        $sql = "INSERT INTO product (product_name, product_price, product_qty, product_code, product_image) VALUES ('$product_name', '$product_price', '$product_qty', '$product_code', '$product_image')";
-
-        // เรียกใช้ SQL
-        $conn->query($sql);
-
-        // แสดงข้อความแจ้งเตือน
-        echo "<p>เพิ่มสินค้าเรียบร้อยแล้ว</p>";
-        sleep(1);
-        header('Location: index.php');
+        if ($stmt->execute()) {
+            echo "<div class='alert alert-success'>Product uploaded successfully!</div>";
+            sleep(1);
+            header('Location: index.php');
+        } else {
+            echo "<div class='alert alert-danger'>Failed to upload product. Please try again.</div>";
+            sleep(1);
+            header('Location: setting.php');
+        }
+        $stmt->close();
     } else {
-        echo "<p>มีข้อผิดพลาดในการอัพโหลดรูปภาพ</p>";
+        echo "<div class='alert alert-danger'>Sorry, there was an error uploading your file.</div>";
+        sleep(1);
+        header('Location: setting.php');
     }
-} else {
-    $product_image = "";
-}
-    // อัพโหลดรูปภาพ
-  if (isset($_FILES["product_image"])) {
-      $product_image = $_FILES["product_image"]["name"];
-      $tmp_name = $_FILES["product_image"]["tmp_name"];
-      move_uploaded_file($tmp_name, "../mini/image/" . $product_image);
-   } else {
-       $product_image = "";
-   }
-
-    // เขียน SQL
-    $sql = "INSERT INTO product (product_name, product_price, product_qty, product_code, product_image) VALUES ('$product_name', '$product_price', '$product_qty', '$product_code', '$product_image')";
-
-    // เรียกใช้ SQL
-    $conn->query($sql);
-
-    // แสดงข้อความแจ้งเตือน
-    echo "<p>เพิ่มสินค้าเรียบร้อยแล้ว</p>";;
-    sleep(1);
-    header('Location: index.php');
 }
 
+// Display cart item count
+if(isset($_GET['cartItem'])) {
+    $stmt = $conn->prepare("SELECT * FROM cart");
+    $stmt->execute();
+    $stmt->store_result();
+    $rows = $stmt->num_rows;
+    echo $rows;
+}
 ?>

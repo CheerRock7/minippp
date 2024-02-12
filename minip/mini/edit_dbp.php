@@ -5,7 +5,7 @@ include 'config.php';
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Process form data
-    $product_id = $_POST['product_id']; // Assuming you have a hidden input field for the product ID
+    $id = $_POST['id']; // Assuming you have a hidden input field for the product ID
     $product_name = $_POST['product_name'];
     $product_price = $_POST['product_price'];
     $product_qty = $_POST['product_qty'];
@@ -20,8 +20,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Upload image
         if (move_uploaded_file($_FILES["product_image"]["tmp_name"], $target_file)) {
             // Update product with new image
-            $stmt = $conn->prepare("UPDATE product SET product_name=?, product_price=?, product_image=?, product_qty=?, product_code=? WHERE product_id=?");
-            $stmt->bind_param("sssssi", $product_name, $product_price, $product_image, $product_qty, $product_code, $product_id);
+            $stmt = $conn->prepare("UPDATE product SET product_name=?, product_price=?, product_image=?, product_qty=?, product_code=? WHERE id=?");
+            $stmt->bind_param("sssssi", $product_name, $product_price, $product_image, $product_qty, $product_code, $id);
         } else {
             echo "<div class='alert alert-danger'>Sorry, there was an error uploading your file.</div>";
             sleep(1);
@@ -30,8 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } else {
         // No new image, update product without changing the image
-        $stmt = $conn->prepare("UPDATE product SET product_name=?, product_price=?, product_qty=?, product_code=? WHERE product_id=?");
-        $stmt->bind_param("ssssi", $product_name, $product_price, $product_qty, $product_code, $product_id);
+        $stmt = $conn->prepare("UPDATE product SET product_name=?, product_price=?, product_qty=?, product_code=? WHERE id=?");
+        $stmt->bind_param("ssssi", $product_name, $product_price, $product_qty, $product_code, $id);
     }
 
     if ($stmt->execute()) {
