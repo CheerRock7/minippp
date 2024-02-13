@@ -111,8 +111,8 @@ CREATE TABLE `user_info` (
 INSERT INTO `user_info` (`id`, `name`, `email`, `password`) VALUES
 (1, 'admin', 'admin@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055'),
 (2, 'root', 'root@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055'),
-(3, 'haru', 'Bo@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055'),
-(4, 'eric', 'erip@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055');
+(3, 'Bo', 'Bo@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055'),
+(4, 'Nitro', 'Nitro@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055');
 
 --
 -- Indexes for dumped tables

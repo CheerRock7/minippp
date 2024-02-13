@@ -25,3 +25,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo "Invalid request.";
 }
 ?>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var deleteForms = document.querySelectorAll('.delete-form');
+
+        deleteForms.forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                var confirmed = confirm('Are you sure you want to delete this product?');
+                
+                if (!confirmed) {
+                    event.preventDefault(); // ยกเลิกการยื่นฟอร์มถ้ายืนยันไม่ใช่
+                }
+            });
+        });
+    });
+</script>

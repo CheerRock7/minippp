@@ -17,8 +17,8 @@ if(isset($_SESSION["user_id"])) {
 } else {
     $username = "Guest";
 }
-?>
 
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -48,7 +48,7 @@ if(isset($_SESSION["user_id"])) {
 
     <nav class="navbar navbar-expand-md bg-white navbar-drak">
     <a class="navbar-brand text-dark" href="Home.php">
-            <img src="image/logo.jpg" alt="logo" width="30" height="30" class="d-inline-block align-text-bottom ">
+            <img src="image/logo.jpg" alt="logo" width="30" height="30" class="d-inline-block align-text-center ">
             PPK
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -66,25 +66,40 @@ if(isset($_SESSION["user_id"])) {
                     <a class="nav-link text-dark" href="cart.php"><i class="fas fa-shopping-cart"></i> <span id="cart-item" class="badge badge-danger"></span></a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-user-circle"></i> <?php echo $username; ?>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <?php if ($username === "Guest"): ?>
-                            <a class="dropdown-item" href="auth/login.php">Login</a>
-                            <a class="dropdown-item" href="auth/register.php">Register</a>
-                        <?php else: ?>
-                            <a class="dropdown-item" href="index.php?logout=<?php echo $username; ?>" onclick="return confirm('Are you sure you want to logout?');">Logout</a>
-                            <a class="dropdown-item" href="setting.php">Setting</a>
-                            <a class="dropdown-item" href="edit.php">edit</a>
-                        <?php endif; ?>
-                    </div>
-                </li>
+        <!-- แสดง Dropdown สำหรับผู้ใช้ทั่วไปหรือ Guest -->
+        <?php if ($username === "Guest"): ?>
+            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-user-circle"></i> <?php echo $username; ?>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a href="index.php?logout=<?php echo $username; ?>" onclick="return confirm('Are you sure you want to logout?');" class="dropdown-item delete-btn">Logout</a>
+            </div>
+        <?php endif; ?>
+        <?php if ($username === "admin"): ?>
+            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-user-circle"></i> <?php echo $username; ?>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="setting.php">Add</a>
+            <a class="dropdown-item" href="edit.php">Edit</a>
+            <a class="dropdown-item" href="edituser.php">setting</a>
+            <a class="dropdown-item" href="order.php">order</a>
+            <hr class="dropdown-divider">
+            <a href="index.php?logout=<?php echo $username; ?>" onclick="return confirm('Are you sure you want to logout?');" class="dropdown-item delete-btn">Logout</a>
+        <?php else: ?>
+            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-user-circle"></i> <?php echo $username; ?>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="edituser.php">setting</a>
+            <a href="index.php?logout=<?php echo $username; ?>" onclick="return confirm('Are you sure you want to logout?');" class="dropdown-item delete-btn">Logout</a>
+        <?php endif; ?>
+        </div>
+        </li>
             </ul>
         </div>
     </nav>
-
-    <!-- Navbar end -->
+        
 </body>
 
 </html>

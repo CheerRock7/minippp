@@ -4,6 +4,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Product</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 500px; /* หรือเลือกค่าที่เหมาะสมตามที่คุณต้องการ */
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+
+        input, button {
+            margin-bottom: 15px;
+            width: 100%; /* ทำให้ input และ button ทั้งหมดเต็ม width */
+        }
+
+        img {
+            max-width: 200px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+
+        }
+
+        button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+button.delete-btn {
+    background-color: #f44336; /* สีแดง */
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+button.delete-btn:hover {
+    background-color: #d32f2f; /* สีแดงเข้ม */
+}
+
+    </style>
 </head>
 <body>
 
@@ -52,14 +140,15 @@ if(isset($_GET['id'])) {
 
             <img src="<?php echo $product['product_image']; ?>" alt="Product Image" style="max-width: 200px;">
 
-            <button type="submit">Update Product</button>
-        </form>
+            <div class="button-container">
+                <button type="submit">Update Product</button>
 
-        <form action="delete_product.php" method="post">
-            <input type="hidden" name="id" value="<?php echo $product['id']; ?>">
-            <button type="submit" onclick="return confirm('Are you sure you want to delete this product?')">Delete Product</button>
+            </div>
         </form>
-
+        <form action="delete_product.php" method="post" class="delete-form">
+    <input type="hidden" name="id" value="<?php echo $product['id']; ?>">
+    <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete this product?')">Delete Product</button>
+</form>
 <?php
     } else {
         echo "Product not found.";
